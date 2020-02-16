@@ -1,0 +1,152 @@
+A51 MACRO ASSEMBLER  SLAVE                                                                11/12/2010 12:42:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02
+OBJECT MODULE PLACED IN Slave.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Slave.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;/*------------------------------------------------------------------*/
+                       2     ;/* --- STC MCU International Limited -------------------------------*/
+                       3     ;/* --- STC 1T Series MCU Simulate I2C Slave Demo -------------------*/
+                       4     ;/* --- Mobile: (86)13922805190 -------------------------------------*/
+                       5     ;/* --- Fax: 86-755-82944243 ----------------------------------------*/
+                       6     ;/* --- Tel: 86-755-82948412 ----------------------------------------*/
+                       7     ;/* --- Web: www.STCMCU.com -----------------------------------------*/
+                       8     ;/* If you want to use the program or the program referenced in the  */
+                       9     ;/* article, please specify in which data and procedures from STC    */
+                      10     ;/*------------------------------------------------------------------*/
+                      11     
+  0090                12     SCL BIT P1.0
+  0091                13     SDA BIT P1.1
+                      14     
+                      15     ;----------------------------
+                      16     
+0000                  17             ORG 0
+                      18     
+0000                  19     RESET:
+0000 D290             20         SETB SCL
+0002 D291             21         SETB SDA
+                      22         
+0004 1125             23         CALL I2C_WAITSTART  ;µÈ´ÆðÊ¼ÐÅºÅ
+0006 114C             24         CALL I2C_RXBYTE     ;½ÓÊÕµØÖ·Ê¾Ý
+0008 C3               25         CLR C
+0009 1136             26         CALL I2C_TXACK      ;»ØÓ¦ACK
+000B D3               27         SETB C              ;¶Á/Ð´ IDATA[80H - FFH]
+000C 13               28         RRC A               ;¶Á/Ð´Î»->C
+000D F8               29         MOV R0,A            ;µØÖ·ËÍÈëR0
+000E 400B             30         JC READDATA         ;C=1(¶Á) C=0(Ð´)
+0010                  31     WRITEDATA:
+0010 114C             32         CALL I2C_RXBYTE     ;½ÓÊÕÊ¾Ý
+0012 F6               33         MOV @R0,A           ;Ð´ÈëIDATA
+0013 08               34         INC R0              ;µØÖ·+1
+0014 C3               35         CLR C
+0015 1136             36         CALL I2C_TXACK      ;»ØÓ¦ACK
+0017 112F             37         CALL I2C_WAITSTOP   ;µÈ´Í£Ö¹ÐÅºÅ
+0019 80E5             38         JMP RESET
+                      39         
+001B                  40     READDATA:
+001B E6               41         MOV A,@R0
+001C 08               42         INC R0
+001D 115A             43         CALL I2C_TXBYTE     ;·¢ËÍIDATAÊ¾Ý
+001F 1141             44         CALL I2C_RXACK      ;½ÓÊÕACK
+0021 112F             45         CALL I2C_WAITSTOP   ;µÈ´Í£Ö¹ÐÅºÅ
+0023 80DB             46         JMP RESET
+                      47     
+                      48     ;----------------------------
+                      49     ;µÈ´ÆðÊ¼ÐÅºÅ
+                      50     ;----------------------------
+0025                  51     I2C_WAITSTART:
+0025 3090FD           52         JNB SCL,$       ;µÈ´Ê±ÖÓ->¸ß
+0028 2091FD           53         JB SDA,$        ;µÈ´Ê¾ÝÏßÏÂ½µÑØ
+002B 2090FD           54         JB SCL,$        ;µÈ´Ê±ÖÓ->µÍ
+002E 22               55         RET
+                      56     
+                      57     ;----------------------------
+                      58     ;µÈ´½áÊøÐÅºÅ
+A51 MACRO ASSEMBLER  SLAVE                                                                11/12/2010 12:42:01 PAGE     2
+
+                      59     ;----------------------------
+002F                  60     I2C_WAITSTOP:
+002F 3090FD           61         JNB SCL,$       ;µÈ´Ê±ÖÓ->¸ß
+0032 3091FD           62         JNB SDA,$       ;µÈ´Ê¾ÝÏßÉÏÉÑØ
+0035 22               63         RET
+                      64     
+                      65     ;----------------------------
+                      66     ;·¢ËÍACK/NAKÐÅºÅ
+                      67     ;----------------------------
+0036                  68     I2C_TXACK:
+0036 9291             69         MOV SDA,C       ;ËÍACKÊ¾Ý
+0038 3090FD           70         JNB SCL,$       ;µÈ´Ê±ÖÓ->¸ß
+003B 2090FD           71         JB SCL,$        ;µÈ´Ê±ÖÓ->µÍ
+003E D291             72         SETB SDA        ;·¢ËÍÍê³É
+0040 22               73         RET
+                      74     
+                      75     ;----------------------------
+                      76     ;½ÓÊÕACK/NAKÐÅºÅ
+                      77     ;----------------------------
+0041                  78     I2C_RXACK:
+0041 D291             79         SETB SDA        ;×¼±¸¶ÁÊ¾Ý
+0043 3090FD           80         JNB SCL,$       ;µÈ´Ê±ÖÓ->¸ß
+0046 A291             81         MOV C,SDA       ;¶ÁÈ¡ACKÐÅºÅ
+0048 2090FD           82         JB SCL,$        ;µÈ´Ê±ÖÓ->µÍ
+004B 22               83         RET
+                      84     
+                      85     ;----------------------------
+                      86     ;½ÓÊÕÒ»×Ö½ÚÊ¾Ý
+                      87     ;----------------------------
+004C                  88     I2C_RXBYTE:
+004C 7F08             89         MOV R7,#8       ;8Î»¼ÆÊ
+004E                  90     RXNEXT:
+004E 3090FD           91         JNB SCL,$       ;µÈ´Ê±ÖÓ->¸ß
+0051 A291             92         MOV C,SDA       ;¶ÁÈ¡Ê¾Ý¿Ú
+0053 33               93         RLC A           ;±£´æÊ¾Ý
+0054 2090FD           94         JB SCL,$        ;µÈ´Ê±ÖÓ->µÍ
+0057 DFF5             95         DJNZ R7,RXNEXT  ;ÊÕÏÂÒ»Î»
+0059 22               96         RET
+                      97     
+                      98     ;----------------------------
+                      99     ;·¢ËÍÒ»×Ö½ÚÊ¾Ý
+                     100     ;----------------------------
+005A                 101     I2C_TXBYTE:
+005A 7F08            102         MOV R7,#8       ;8Î»¼ÆÊ
+005C                 103     TXNEXT:
+005C 33              104         RLC A           ;ÒÆ³öÊ¾ÝÎ»
+005D 9291            105         MOV SDA,C       ;Ê¾ÝËÍÊ¾Ý¿Ú
+005F 3090FD          106         JNB SCL,$       ;µÈ´Ê±ÖÓ->¸ß
+0062 2090FD          107         JB SCL,$        ;µÈ´Ê±ÖÓ->µÍ
+0065 DFF5            108         DJNZ R7,TXNEXT  ;ËÍÏÂÒ»Î»
+0067 22              109         RET
+                     110     
+                     111     ;----------------------------
+                     112     
+                     113             END
+A51 MACRO ASSEMBLER  SLAVE                                                                11/12/2010 12:42:01 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+I2C_RXACK. . . . .  C ADDR   0041H   A   
+I2C_RXBYTE . . . .  C ADDR   004CH   A   
+I2C_TXACK. . . . .  C ADDR   0036H   A   
+I2C_TXBYTE . . . .  C ADDR   005AH   A   
+I2C_WAITSTART. . .  C ADDR   0025H   A   
+I2C_WAITSTOP . . .  C ADDR   002FH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+READDATA . . . . .  C ADDR   001BH   A   
+RESET. . . . . . .  C ADDR   0000H   A   
+RXNEXT . . . . . .  C ADDR   004EH   A   
+SCL. . . . . . . .  B ADDR   0090H.0 A   
+SDA. . . . . . . .  B ADDR   0090H.1 A   
+TXNEXT . . . . . .  C ADDR   005CH   A   
+WRITEDATA. . . . .  C ADDR   0010H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

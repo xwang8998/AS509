@@ -1,0 +1,440 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        09/11/2017  15:30:04  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main.obj, delay.obj, si_spi.obj, Si5340D.obj TO Master RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main.obj (MAIN)
+  delay.obj (DELAY)
+  si_spi.obj (SI_SPI)
+  Si5340D.obj (SI5340D)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?IMUL)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ILDOPTR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?OFFX256)
+
+
+LINK MAP OF MODULE:  Master (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0014H     UNIT         _DATA_GROUP_
+                    001CH     0004H                  *** GAP ***
+            BIT     0020H.0   0000H.6   UNIT         ?BI?MAIN
+                    0020H.6   0000H.2                *** GAP ***
+            DATA    0021H     000FH     UNIT         ?DT?MAIN
+            IDATA   0030H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     027FH     UNIT         ?CO?SI5340D
+            CODE    0282H     0088H     UNIT         ?C?LIB_CODE
+            CODE    030AH     007BH     UNIT         ?PR?_CONFIG_NUM_SI5340D?SI5340D
+            CODE    0385H     004DH     UNIT         ?PR?_SI_16_BIT_SIP?SI_SPI
+            CODE    03D2H     001DH     UNIT         ?PR?MAIN?MAIN
+            CODE    03EFH     0019H     UNIT         ?PR?MY_DELAY?MAIN
+            CODE    0408H     0014H     UNIT         ?PR?SI_DELAY?SI_SPI
+            CODE    041CH     0010H     UNIT         ?PR?SI_UNSELECT?SI_SPI
+            CODE    042CH     0010H     UNIT         ?PR?_SI_SPI_WRITE?SI_SPI
+            CODE    043CH     000FH     UNIT         ?PR?_SI_SPI_READ?SI_SPI
+            CODE    044BH     000DH     UNIT         ?PR?POWER_DELAY?MAIN
+            CODE    0458H     000DH     UNIT         ?PR?_DELAY10MS?DELAY
+            CODE    0465H     000DH     UNIT         ?PR?CONFIG_INIT_SI5340D?SI5340D
+            CODE    0472H     000DH     UNIT         ?PR?CONFIG_100P?SI5340D
+            CODE    047FH     000CH     UNIT         ?C_C51STARTUP
+            CODE    048BH     0009H     UNIT         ?PR?SI_SPI_INIT?SI_SPI
+
+
+
+OVERLAY MAP OF MODULE:   Master (MAIN)
+
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 2
+
+
+SEGMENT                                   DATA_GROUP 
+  +--> CALLED SEGMENT                   START    LENGTH
+-------------------------------------------------------
+?C_C51STARTUP                           -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                           0008H    0005H
+  +--> ?PR?POWER_DELAY?MAIN
+  +--> ?PR?SI_SPI_INIT?SI_SPI
+  +--> ?PR?CONFIG_100P?SI5340D
+  +--> ?PR?MY_DELAY?MAIN
+
+?PR?CONFIG_100P?SI5340D                 -----    -----
+  +--> ?CO?SI5340D
+  +--> ?PR?_CONFIG_NUM_SI5340D?SI5340D
+
+?PR?_CONFIG_NUM_SI5340D?SI5340D         000DH    000EH
+  +--> ?PR?_SI_SPI_WRITE?SI_SPI
+
+?PR?_SI_SPI_WRITE?SI_SPI                001BH    0001H
+  +--> ?PR?_SI_16_BIT_SIP?SI_SPI
+
+?PR?_SI_16_BIT_SIP?SI_SPI               -----    -----
+  +--> ?PR?SI_UNSELECT?SI_SPI
+  +--> ?PR?SI_DELAY?SI_SPI
+
+?PR?SI_UNSELECT?SI_SPI                  -----    -----
+  +--> ?PR?SI_DELAY?SI_SPI
+
+
+
+SYMBOL TABLE OF MODULE:  Master (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  D:0021H         PUBLIC        xsample_rate
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  B:00B0H.3       PUBLIC        Si_nOE
+  C:044BH         PUBLIC        power_delay
+  B:00B0H.6       PUBLIC        Si_Reset
+  D:00D8H         PUBLIC        CCON
+  C:03D2H         PUBLIC        main
+  B:0020H.0       PUBLIC        REND
+  B:0020H.1       PUBLIC        TEND
+  D:0022H         PUBLIC        RDAT
+  D:0023H         PUBLIC        TDAT
+  D:0024H         PUBLIC        xsample_rate_old
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 3
+
+
+  D:0025H         PUBLIC        RBUF
+  B:0020H.2       PUBLIC        RING
+  D:0026H         PUBLIC        RBIT
+  D:0027H         PUBLIC        TBUF
+  B:0020H.3       PUBLIC        TING
+  D:0028H         PUBLIC        TBIT
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:0029H         PUBLIC        RCNT
+  D:002AH         PUBLIC        TCNT
+  D:002BH         PUBLIC        cptr
+  B:0020H.4       PUBLIC        tstb
+  D:00F0H         PUBLIC        B
+  D:002DH         PUBLIC        gx_rxOK
+  D:00E0H         PUBLIC        ACC
+  D:002EH         PUBLIC        gx_rxdata
+  D:002FH         PUBLIC        gx_rx_cnt
+  C:03EFH         PUBLIC        my_delay
+  B:0020H.5       PUBLIC        tst
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MY_DELAY
+  -------         DO            
+  D:0007H         SYMBOL        j
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:03EFH         LINE#         229
+  C:03EFH         LINE#         230
+  C:03EFH         LINE#         232
+  C:03F1H         LINE#         233
+  C:03FBH         LINE#         234
+  C:03FDH         LINE#         235
+  C:0407H         LINE#         239
+  -------         ENDPROC       MY_DELAY
+  -------         PROC          POWER_DELAY
+  -------         DO            
+  D:0006H         SYMBOL        j
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:044BH         LINE#         242
+  C:044BH         LINE#         243
+  C:044BH         LINE#         245
+  C:044DH         LINE#         246
+  C:0457H         LINE#         249
+  -------         ENDPROC       POWER_DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:000AH         SYMBOL        xaddr
+  D:000BH         SYMBOL        xwrdata
+  D:000CH         SYMBOL        xreaddata
+  -------         ENDDO         
+  C:03D2H         LINE#         262
+  C:03D2H         LINE#         263
+  C:03D2H         LINE#         264
+  C:03D7H         LINE#         266
+  C:03DAH         LINE#         267
+  C:03DDH         LINE#         293
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 4
+
+
+  C:03DFH         LINE#         294
+  C:03E2H         LINE#         296
+  C:03E8H         LINE#         298
+  C:03EAH         LINE#         299
+  C:03EDH         LINE#         300
+  C:03EDH         LINE#         301
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        DELAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0458H         PUBLIC        _Delay10ms
+  -------         PROC          _DELAY10MS
+  D:0007H         SYMBOL        ms
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:0005H         SYMBOL        k
+  -------         ENDDO         
+  C:0458H         LINE#         32
+  C:0458H         LINE#         33
+  C:0458H         LINE#         35
+  C:0459H         LINE#         36
+  C:045AH         LINE#         37
+  C:045AH         LINE#         38
+  C:045CH         LINE#         39
+  C:045EH         LINE#         41
+  C:045EH         LINE#         43
+  C:045EH         LINE#         44
+  C:0460H         LINE#         45
+  C:0462H         LINE#         46
+  C:0464H         LINE#         47
+  -------         ENDPROC       _DELAY10MS
+  -------         ENDMOD        DELAY
+
+  -------         MODULE        SI_SPI
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        P4
+  D:00C8H         PUBLIC        P5
+  C:043CH         PUBLIC        _si_spi_read
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:042CH         PUBLIC        _si_spi_write
+  C:048BH         PUBLIC        si_spi_init
+  D:00D8H         PUBLIC        CCON
+  C:041CH         PUBLIC        si_unselect
+  B:0090H.5       PUBLIC        si_spi_clk
+  B:0090H.4       PUBLIC        si_spi_sdi
+  B:0090H.3       PUBLIC        si_spi_sdo
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00F0H         PUBLIC        B
+  B:0090H.2       PUBLIC        si_spi_cs
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 5
+
+
+  D:00E0H         PUBLIC        ACC
+  C:040FH         PUBLIC        si_delay
+  C:0385H         PUBLIC        _si_16_bit_sip
+  D:00D0H         PUBLIC        PSW
+  C:0408H         SYMBOL        L?0021
+  C:040AH         SYMBOL        L?0022
+  -------         PROC          L?0020
+  -------         ENDPROC       L?0020
+  C:0408H         SYMBOL        L?0021
+  C:040AH         SYMBOL        L?0022
+  -------         PROC          SI_DELAY
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  -------         ENDDO         
+  C:040FH         LINE#         23
+  C:040FH         LINE#         24
+  C:040FH         LINE#         26
+  C:0411H         LINE#         27
+  C:0411H         LINE#         28
+  C:0417H         LINE#         29
+  C:041BH         LINE#         31
+  -------         ENDPROC       SI_DELAY
+  -------         PROC          SI_SPI_INIT
+  C:048BH         LINE#         33
+  C:048BH         LINE#         34
+  C:048BH         LINE#         35
+  C:048DH         LINE#         36
+  C:048FH         LINE#         37
+  C:0491H         LINE#         38
+  C:0493H         LINE#         39
+  -------         ENDPROC       SI_SPI_INIT
+  -------         PROC          SI_UNSELECT
+  C:041CH         LINE#         41
+  C:041CH         LINE#         42
+  C:041CH         LINE#         43
+  C:041EH         LINE#         44
+  C:041EH         LINE#         46
+  C:041EH         LINE#         47
+  C:041EH         LINE#         48
+  C:0421H         LINE#         49
+  C:0421H         LINE#         51
+  C:0421H         LINE#         52
+  C:0421H         LINE#         53
+  C:0424H         LINE#         54
+  C:0424H         LINE#         56
+  C:0424H         LINE#         57
+  C:0424H         LINE#         58
+  C:0427H         LINE#         59
+  C:0429H         LINE#         61
+  -------         ENDPROC       SI_UNSELECT
+  -------         PROC          _SI_16_BIT_SIP
+  D:0007H         SYMBOL        xa
+  D:0005H         SYMBOL        xb
+  -------         DO            
+  D:0002H         SYMBOL        xwr
+  D:0004H         SYMBOL        xrd
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 6
+
+
+  D:0001H         SYMBOL        i
+  D:0007H         SYMBOL        xret
+  -------         ENDDO         
+  C:0385H         LINE#         64
+  C:0385H         LINE#         65
+  C:0385H         LINE#         68
+  C:0387H         LINE#         69
+  C:038BH         LINE#         70
+  C:0391H         LINE#         71
+  C:0394H         LINE#         73
+  C:0397H         LINE#         74
+  C:0399H         LINE#         75
+  C:039CH         LINE#         76
+  C:039EH         LINE#         77
+  C:039EH         LINE#         79
+  C:03A2H         LINE#         80
+  C:03A6H         LINE#         82
+  C:03A8H         LINE#         83
+  C:03AFH         LINE#         84
+  C:03AFH         LINE#         86
+  C:03AFH         LINE#         87
+  C:03B2H         LINE#         89
+  C:03B4H         LINE#         90
+  C:03BBH         LINE#         91
+  C:03BEH         LINE#         92
+  C:03C3H         LINE#         93
+  C:03C6H         LINE#         95
+  C:03C8H         LINE#         96
+  C:03CCH         LINE#         97
+  C:03CFH         LINE#         98
+  C:03D1H         LINE#         99
+  C:03D1H         LINE#         100
+  -------         ENDPROC       _SI_16_BIT_SIP
+  -------         PROC          _SI_SPI_WRITE
+  D:0007H         SYMBOL        xreg_addr
+  D:001BH         SYMBOL        xreg_data
+  C:042CH         LINE#         109
+  C:042EH         LINE#         110
+  C:042EH         LINE#         111
+  C:0435H         LINE#         112
+  -------         ENDPROC       _SI_SPI_WRITE
+  -------         PROC          _SI_SPI_READ
+  D:0005H         SYMBOL        xreg_addr
+  -------         DO            
+  D:0007H         SYMBOL        xret
+  -------         ENDDO         
+  C:043CH         LINE#         115
+  C:043EH         LINE#         116
+  C:043EH         LINE#         118
+  C:0443H         LINE#         119
+  C:044AH         LINE#         120
+  C:044AH         LINE#         121
+  -------         ENDPROC       _SI_SPI_READ
+  -------         ENDMOD        SI_SPI
+
+  -------         MODULE        SI5340D
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 7
+
+
+  C:0465H         PUBLIC        config_init_si5340d
+  C:030AH         PUBLIC        _config_num_si5340d
+  C:0003H         PUBLIC        si5340_100p_registers
+  C:0472H         PUBLIC        config_100p
+  -------         PROC          _CONFIG_NUM_SI5340D
+  D:000DH         SYMBOL        xleng
+  D:000FH         SYMBOL        xp
+  -------         DO            
+  D:0012H         SYMBOL        i
+  D:0014H         SYMBOL        xaddr
+  D:0016H         SYMBOL        xreg_addr
+  D:0017H         SYMBOL        xchar
+  D:0018H         SYMBOL        xchar_old
+  D:0019H         SYMBOL        xcharB
+  D:001AH         SYMBOL        xtest
+  -------         ENDDO         
+  C:030AH         LINE#         21
+  C:0314H         LINE#         22
+  C:0314H         LINE#         27
+  C:0317H         LINE#         29
+  C:0327H         LINE#         30
+  C:0327H         LINE#         31
+  C:0340H         LINE#         32
+  C:0344H         LINE#         33
+  C:034AH         LINE#         34
+  C:034AH         LINE#         35
+  C:034DH         LINE#         36
+  C:0354H         LINE#         40
+  C:0354H         LINE#         41
+  C:0357H         LINE#         43
+  C:0374H         LINE#         44
+  C:037AH         LINE#         48
+  C:0384H         LINE#         50
+  -------         ENDPROC       _CONFIG_NUM_SI5340D
+  -------         PROC          CONFIG_INIT_SI5340D
+  C:0465H         LINE#         58
+  C:0465H         LINE#         59
+  C:0465H         LINE#         60
+  -------         ENDPROC       CONFIG_INIT_SI5340D
+  -------         PROC          CONFIG_100P
+  C:0472H         LINE#         66
+  C:0472H         LINE#         67
+  C:0472H         LINE#         68
+  -------         ENDPROC       CONFIG_100P
+  -------         ENDMOD        SI5340D
+
+  -------         MODULE        ?C?CLDOPTR
+  C:0282H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?IMUL
+  C:02AFH         PUBLIC        ?C?IMUL
+  -------         ENDMOD        ?C?IMUL
+
+  -------         MODULE        ?C?ILDOPTR
+  C:02C1H         PUBLIC        ?C?ILDOPTR
+  -------         ENDMOD        ?C?ILDOPTR
+BL51 BANKED LINKER/LOCATER V6.22                                                      09/11/2017  15:30:04  PAGE 8
+
+
+
+  -------         MODULE        ?C?OFFX256
+  C:02F9H         PUBLIC        ?C?OFFX256
+  -------         ENDMOD        ?C?OFFX256
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY10MS?DELAY
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_SI_SPI_READ?SI_SPI
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CONFIG_INIT_SI5340D?SI5340D
+
+Program Size: data=44.6 xdata=0 code=1172
+LINK/LOCATE RUN COMPLETE.  3 WARNING(S),  0 ERROR(S)

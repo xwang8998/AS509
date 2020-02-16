@@ -1,0 +1,410 @@
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MONI_I2C_A
+OBJECT MODULE PLACED IN moni_I2C_A.OBJ
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE moni_I2C_A.c BROWSE INCDIR(..\Master_c_testIO_moni_uart_web;..\Master_c_tes
+                    -tIO_moni_uart_web) DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -************************/
+   2          #include  "STC15Fxxxx.H"
+   3          
+   4          #ifndef uchar 
+   5          #define uchar unsigned char 
+   6          #endif 
+   7          #ifndef uint 
+   8          #define uint unsigned int 
+   9          #endif 
+  10          
+  11          //#define WD7188  0X40
+  12          //#define RD7188  0X41 
+  13          
+  14          //sbit  pSDA  = P1^2;//P3^7;
+  15          //sbit  pSCL  = P1^1;//P3^6;
+  16          sbit  pSDA  = P2^4;//P3^2;  //7 
+  17          sbit  pSCL  = P2^1;//P3^3;  //8
+  18          
+  19          
+  20          bit   bACK;
+  21          
+  22          unsigned char xdelay;
+  23          
+  24          
+  25          extern uchar  keyedA, keyedB; 
+  26          
+  27          extern bit tst ;
+  28          extern bit tstb;
+  29          
+  30          void iicStart()  //if scl==0 it crashed;
+  31             {
+  32   1          uchar i2cStartI;
+  33   1          pSDA=1;
+  34   1          pSCL=1;
+  35   1          //0913 while(pSCL==0){;}
+  36   1          for(i2cStartI=0;i2cStartI<60;i2cStartI++){_nop_();}
+  37   1          pSDA=0;
+  38   1          for(i2cStartI=0;i2cStartI<60;i2cStartI++){_nop_();}
+  39   1          pSCL=0;
+  40   1          for(i2cStartI=0;i2cStartI<60;i2cStartI++){_nop_();}
+  41   1          }
+  42          
+  43          void iicwrbit_0()
+  44               {
+  45   1              //uchar i2cWrbyt0I;
+  46   1              pSCL=0;
+  47   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  48   1              pSDA=0;
+  49   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  50   1              pSCL=1;
+  51   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  52   1              pSCL=0;       
+  53   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 2   
+
+  54   1              
+  55   1           }
+  56          
+  57           void iicwrbit_1()
+  58               {
+  59   1              //uchar i2cWrbyt1I;
+  60   1              pSCL=0;
+  61   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  62   1              pSDA=1;
+  63   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  64   1              pSCL=1;
+  65   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  66   1              pSCL=0;
+  67   1              for(xdelay=0;xdelay<60;xdelay++){_nop_();}
+  68   1                      
+  69   1           }
+  70              
+  71              
+  72           void iic_getAck() //no crash
+  73               {
+  74   1             //uchar i2cCackI;
+  75   1             pSCL=0;
+  76   1             for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+  77   1             pSDA=1;
+  78   1             for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+  79   1             pSCL=1;
+  80   1             for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+  81   1             if(pSDA==0)
+  82   1               {
+  83   2                 bACK=0; 
+  84   2               }
+  85   1             else
+  86   1               {
+  87   2                 bACK=1;
+  88   2               }
+  89   1            pSCL=0;
+  90   1            for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+  91   1             
+  92   1           }
+  93          
+  94           void iicStop() //if scl==0 it crashed;
+  95              {
+  96   1           uchar i2cStopI;
+  97   1           
+  98   1           pSCL=0;
+  99   1           for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+ 100   1           pSDA=0;   
+ 101   1           for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+ 102   1           pSCL=1;
+ 103   1           //0913 while(pSCL==0){;}
+ 104   1           for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+ 105   1           pSDA=1;
+ 106   1           for(xdelay=0;xdelay<60;xdelay++){_nop_();} 
+ 107   1           }
+*** WARNING C280 IN LINE 96 OF moni_I2C_A.c: 'i2cStopI': unreferenced local variable
+ 108          
+ 109           void iic_send_MACK() //no crash
+ 110              {
+ 111   1            //uchar i2cMnackI;
+ 112   1            
+ 113   1            pSCL=0;
+ 114   1            for(xdelay=0;xdelay<50;xdelay++){_nop_();}
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 3   
+
+ 115   1            pSDA=0;
+ 116   1            for(xdelay=0;xdelay<50;xdelay++){_nop_();}
+ 117   1            pSCL=1;
+ 118   1            for(xdelay=0;xdelay<50;xdelay++){_nop_();}  
+ 119   1            pSCL=0;
+ 120   1            //pSDA=1;   
+ 121   1            for(xdelay=0;xdelay<50;xdelay++){_nop_();}  
+ 122   1            }
+ 123          
+ 124           //----------------------------------------------------------------
+ 125           void iicwrByte(uchar i2cWrbytWrData)
+ 126                {
+ 127   1              uchar i2cWrbytJ;
+ 128   1              for(i2cWrbytJ=0;i2cWrbytJ<8;i2cWrbytJ++)
+ 129   1               {
+ 130   2                 if((i2cWrbytWrData&0x80)>0)
+ 131   2                    {iicwrbit_1();}
+ 132   2                 else
+ 133   2                    {iicwrbit_0();}
+ 134   2                 i2cWrbytWrData=_crol_(i2cWrbytWrData,1);
+ 135   2                 }  
+ 136   1            }
+ 137          
+ 138           uchar iicrdByte()
+ 139               {
+ 140   1             uchar i2cRdbytRdData=0xff,i2cRdbytJ;
+ 141   1             pSCL=0;
+ 142   1             for(xdelay=0;xdelay<50;xdelay++){_nop_();}
+ 143   1             pSDA=1;
+ 144   1             for(xdelay=0;xdelay<50;xdelay++){_nop_();}
+ 145   1             for(i2cRdbytJ=0;i2cRdbytJ<8;i2cRdbytJ++)
+ 146   1               {
+ 147   2                pSCL=1;
+ 148   2                for(xdelay=0;xdelay<50;xdelay++){_nop_();}   
+ 149   2                if(pSDA==0)
+ 150   2                  {
+ 151   3                   i2cRdbytRdData=i2cRdbytRdData&0x7f;
+ 152   3                   i2cRdbytRdData=_crol_(i2cRdbytRdData,1);
+ 153   3                    } 
+ 154   2                else
+ 155   2                  {
+ 156   3                   i2cRdbytRdData=i2cRdbytRdData|0x80;
+ 157   3                   i2cRdbytRdData=_crol_(i2cRdbytRdData,1);
+ 158   3                   }
+ 159   2                for(xdelay=0;xdelay<50;xdelay++){_nop_();} 
+ 160   2                pSCL=0; 
+ 161   2                for(xdelay=0;xdelay<50;xdelay++){_nop_();} 
+ 162   2                }
+ 163   1             return(i2cRdbytRdData);
+ 164   1             }
+ 165          
+ 166          //----------------------------------------------------------------
+ 167          //for test 
+ 168                 /*
+ 169          void set_si5351c(uchar xbyte_addr,uchar xbyte_data)
+ 170            {
+ 171              
+ 172                        iicStart(); 
+ 173                        iicwrByte(0xa0);  
+ 174                        iic_getAck();//P2=0x07;
+ 175                        if(bACK==1){while(1){;}}
+ 176                        iicwrByte(xbyte_addr);
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 4   
+
+ 177                        iic_getAck();
+ 178                        if(bACK==1){P2=0x30;while(1){;}}
+ 179                        iicwrByte(xbyte_data);
+ 180                        iic_getAck();
+ 181                        if(bACK==1){P2=0x70;while(1){;}}
+ 182                        iicStop();  
+ 183                        P2=0xf0;  
+ 184              
+ 185            }
+ 186            */
+ 187          
+ 188            
+ 189          
+ 190          void set_i2c_slave(uchar xdevaddr,uchar xbyte_addr,uchar xbyte_data)
+ 191            {
+ 192   1          do{
+ 193   2              do{
+ 194   3                do{
+ 195   4                    iicStart(); 
+ 196   4                    iicwrByte(xdevaddr);  //0xc0
+ 197   4                    iic_getAck();
+ 198   4                }while(bACK==1);
+ 199   3                iicwrByte(xbyte_addr);
+ 200   3                iic_getAck();
+ 201   3              }while(bACK==1);
+ 202   2              iicwrByte(xbyte_data);
+ 203   2              iic_getAck();
+ 204   2            }while(bACK==1);
+ 205   1         iicStop();
+ 206   1        }
+ 207          
+ 208          uchar read_i2c_slave(uchar xdevaddr,uchar RdAddr)
+ 209               {
+ 210   1          uchar temp;
+ 211   1          uchar x_wr_devaddr;
+ 212   1          x_wr_devaddr = xdevaddr + 1;   
+ 213   1          do{
+ 214   2             do{
+ 215   3                do{
+ 216   4                   iicStart();
+ 217   4                   iicwrByte(xdevaddr);//0xc0  这里0xa0 要改成 24C04 的addr + 1(for read)
+ 218   4                   iic_getAck();
+ 219   4                   //PTSTA = tst;//tst GPIO
+ 220   4                   //tst = ~tst;   
+ 221   4                   }while(bACK==1);
+ 222   3                iicwrByte(RdAddr);
+ 223   3                iic_getAck();
+ 224   3                //PTSTA = tst;//tst GPIO
+ 225   3                //tst = ~tst;  
+ 226   3                }while(bACK==1);
+ 227   2              iicStop();  
+ 228   2              iicStart();
+ 229   2              iicwrByte(x_wr_devaddr);//0xc1
+ 230   2              iic_getAck();
+ 231   2              //PTSTA = tst;//tst GPIO
+ 232   2              //tst = ~tst;  
+ 233   2              }while(bACK==1);
+ 234   1           temp=iicrdByte();
+ 235   1           iic_send_MACK();
+ 236   1           iicStop();
+ 237   1           //PTSTA = tst;//tst GPIO
+ 238   1           //tst = ~tst;   
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 5   
+
+ 239   1           return(temp);
+ 240   1          }
+ 241          
+ 242          
+ 243          
+ 244          /*
+ 245          
+ 246          void set_si5351c(uchar xbyte_addr,uchar xbyte_data)
+ 247            {
+ 248              do{
+ 249                  do{
+ 250                    do{
+ 251                        iicStart(); 
+ 252                        iicwrByte(0xc0);  //0xc0
+ 253                        iic_getAck();
+ 254                    }while(bACK==1);
+ 255                    iicwrByte(xbyte_addr);
+ 256                    iic_getAck();
+ 257                  }while(bACK==1);
+ 258                  iicwrByte(xbyte_data);
+ 259                  iic_getAck();
+ 260                }while(bACK==1);
+ 261             iicStop();
+ 262            }
+ 263          
+ 264          uchar read_si5351c(uchar RdAddr)
+ 265               {
+ 266              uchar temp;
+ 267              do{
+ 268                 do{
+ 269                    do{
+ 270                       iicStart();
+ 271                       iicwrByte(0xc0);//这里0xa0 要改成 24C04 的addr + 1(for read)
+ 272                       iic_getAck();
+ 273                       //PTSTA = tst;//tst GPIO
+ 274                       //tst = ~tst;   
+ 275                       }while(bACK==1);
+ 276                    iicwrByte(RdAddr);
+ 277                    iic_getAck();
+ 278                    //PTSTA = tst;//tst GPIO
+ 279                    //tst = ~tst;  
+ 280                    }while(bACK==1);
+ 281                  iicStart();
+ 282                  iicwrByte(0xc1);
+ 283                  iic_getAck();
+ 284                  //PTSTA = tst;//tst GPIO
+ 285                  //tst = ~tst;  
+ 286                  }while(bACK==1);
+ 287               temp=iicrdByte();
+ 288               iic_send_MACK();
+ 289               iicStop();
+ 290               //PTSTA = tst;//tst GPIO
+ 291               //tst = ~tst;   
+ 292               return(temp);
+ 293              }
+ 294          */    
+ 295          
+ 296          /*
+ 297          void iic24cxxwr(uchar WrAddr,uchar WrData)
+ 298               {
+ 299               do{
+ 300                  do{ 
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 6   
+
+ 301                       do{
+ 302                        iicStart();
+ 303                      iicwrByte(0xa0);//这里0xa0 要改成 24C04 的addr
+ 304                      iic_getAck();
+ 305                       }while(bACK==1);
+ 306                    iicwrByte(WrAddr);
+ 307                  iic_getAck();
+ 308                       }while(bACK==1);
+ 309                iicwrByte(WrData);
+ 310                iic_getAck();
+ 311                   }while(bACK==1);
+ 312               iicStop();
+ 313               
+ 314              }
+ 315          
+ 316          uchar iic24cxxrd(uchar RdAddr)
+ 317               {
+ 318              uchar temp;
+ 319              do{
+ 320                 do{
+ 321                    do{
+ 322                       iicStart();
+ 323                       iicwrByte(0xa1);//这里0xa0 要改成 24C04 的addr + 1(for read)
+ 324                       iic_getAck();
+ 325                       }while(bACK==1);
+ 326                    iicwrByte(RdAddr);
+ 327                    iic_getAck();
+ 328                    }while(bACK==1);
+ 329                  iicStart();
+ 330                  iicwrByte(0xa1);
+ 331                  iic_getAck();            
+ 332                  }while(bACK==1);
+ 333               temp=iicrdByte();
+ 334               iic_send_MACK();
+ 335               iicStop();
+ 336               return(temp);
+ 337              }
+ 338          
+ 339          
+ 340          void iicwrByte(uchar i2cWrbytWrData)
+ 341                {
+ 342                  uchar i2cWrbytI,i2cWrbytJ;
+ 343                  pSCL=0;
+ 344                  for(i2cWrbytI=0;i2cWrbytI<50;i2cWrbytI++){_nop_();}
+ 345                  
+ 346                  if((i2cWrbytWrData&0x80)>0)
+ 347                     {pSDA=1;}
+ 348                  else
+ 349                     {pSDA=0;}
+ 350                  for(i2cWrbytI=0;i2cWrbytI<50;i2cWrbytI++){_nop_();}
+ 351                  
+ 352                  pSCL=1;
+ 353                  //0913 while(pSCL==0){;}
+ 354                  for(i2cWrbytI=0;i2cWrbytI<50;i2cWrbytI++){_nop_();}
+ 355                  
+ 356                  //----------------------------------------------
+ 357                  pSCL=0;// pSDA=0;
+ 358                  i2cWrbytWrData=_crol_(i2cWrbytWrData,1);
+ 359                  for(i2cWrbytJ=1;i2cWrbytJ<8;i2cWrbytJ++)
+ 360                   {
+ 361                     if((i2cWrbytWrData&0x80)>0)
+ 362                        {iicwrbit_1();}
+C51 COMPILER V9.52.0.0   MONI_I2C_A                                                        01/30/2011 16:17:45 PAGE 7   
+
+ 363                     else
+ 364                        {iicwrbit_0();}
+ 365                     i2cWrbytWrData=_crol_(i2cWrbytWrData,1);
+ 366                     }  
+ 367                }
+ 368          
+ 369          
+ 370          
+ 371          
+ 372          */
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    530    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

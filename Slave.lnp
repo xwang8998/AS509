@@ -1,0 +1,6 @@
+"i2c_slave.obj",
+"main.obj",
+"delay.obj",
+"moni_I2C_A.obj" 
+TO "Slave" 
+RAMSIZE(256) 

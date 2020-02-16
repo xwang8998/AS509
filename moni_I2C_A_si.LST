@@ -1,0 +1,250 @@
+C51 COMPILER V9.52.0.0   MONI_I2C_A_SI                                                     01/18/2016 18:42:05 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MONI_I2C_A_SI
+OBJECT MODULE PLACED IN moni_I2C_A_si.OBJ
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE moni_I2C_A_si.c BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -************************/
+   2          #include  "STC15Fxxxx.H"
+   3          
+   4          #ifndef uchar 
+   5          #define uchar unsigned char 
+   6          #endif 
+   7          #ifndef uint 
+   8          #define uint unsigned int 
+   9          #endif 
+  10          
+  11          //#define WD7188  0X40
+  12          //#define RD7188  0X41 
+  13          
+  14          sbit  pSDA_si = P1^4;//P3^2;  //7 
+  15          sbit  pSCL_si = P1^5;//P3^3;  //8
+  16          
+  17          
+  18          bit   bACK_si;
+  19          
+  20          unsigned char xdelay_si;
+  21          
+  22          
+  23          //extern uchar  keyedA, keyedB; 
+  24          //extern bit tst ;
+  25          //extern bit tstb;
+  26          
+  27          void iicStart_si()  //if scl==0 it crashed;
+  28             {
+  29   1          uchar i2cStartI;
+  30   1          pSDA_si=1;
+  31   1          pSCL_si=1;
+  32   1          //0913 while(pSCL_si==0){;}
+  33   1          for(i2cStartI=0;i2cStartI<60;i2cStartI++){_nop_();}
+  34   1          pSDA_si=0;
+  35   1          for(i2cStartI=0;i2cStartI<60;i2cStartI++){_nop_();}
+  36   1          pSCL_si=0;
+  37   1          for(i2cStartI=0;i2cStartI<60;i2cStartI++){_nop_();}
+  38   1          }
+  39          
+  40          void iicwrbit_0_si()
+  41               {
+  42   1              //uchar i2cWrbyt0I;
+  43   1              pSCL_si=0;
+  44   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  45   1              pSDA_si=0;
+  46   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  47   1              pSCL_si=1;
+  48   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  49   1              pSCL_si=0;       
+  50   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  51   1              
+  52   1           }
+  53          
+  54           void iicwrbit_1_si()
+C51 COMPILER V9.52.0.0   MONI_I2C_A_SI                                                     01/18/2016 18:42:05 PAGE 2   
+
+  55               {
+  56   1              //uchar i2cWrbyt1I;
+  57   1              pSCL_si=0;
+  58   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  59   1              pSDA_si=1;
+  60   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  61   1              pSCL_si=1;
+  62   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  63   1              pSCL_si=0;
+  64   1              for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();}
+  65   1                      
+  66   1           }
+  67              
+  68              
+  69           void iic_getAck_si() //no crash
+  70               {
+  71   1             //uchar i2cCackI;
+  72   1             pSCL_si=0;
+  73   1             for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+  74   1             pSDA_si=1;
+  75   1             for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+  76   1             pSCL_si=1;
+  77   1             for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+  78   1             if(pSDA_si==0)
+  79   1               {
+  80   2                 bACK_si=0; 
+  81   2               }
+  82   1             else
+  83   1               {
+  84   2                 bACK_si=1;
+  85   2               }
+  86   1            pSCL_si=0;
+  87   1            for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+  88   1             
+  89   1           }
+  90          
+  91           void iicStop_si() //if scl==0 it crashed;
+  92              {
+  93   1           uchar i2cStopI;
+  94   1           
+  95   1           pSCL_si=0;
+  96   1           for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+  97   1           pSDA_si=0;  
+  98   1           for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+  99   1           pSCL_si=1;
+ 100   1           //0913 while(pSCL_si==0){;}
+ 101   1           for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+ 102   1           pSDA_si=1;
+ 103   1           for(xdelay_si=0;xdelay_si<60;xdelay_si++){_nop_();} 
+ 104   1           }
+*** WARNING C280 IN LINE 93 OF moni_I2C_A_si.c: 'i2cStopI': unreferenced local variable
+ 105          
+ 106           void iic_send_MACK_si() //no crash
+ 107              {
+ 108   1            //uchar i2cMnackI;
+ 109   1            
+ 110   1            pSCL_si=0;
+ 111   1            for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}
+ 112   1            pSDA_si=0;
+ 113   1            for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}
+ 114   1            pSCL_si=1;
+ 115   1            for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}  
+C51 COMPILER V9.52.0.0   MONI_I2C_A_SI                                                     01/18/2016 18:42:05 PAGE 3   
+
+ 116   1            pSCL_si=0;
+ 117   1            //pSDA_si=1;   
+ 118   1            for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}  
+ 119   1            }
+ 120          
+ 121           //----------------------------------------------------------------
+ 122           void iicwrByte_si(uchar i2cWrbytWrData)
+ 123                {
+ 124   1              uchar i2cWrbytJ;
+ 125   1              for(i2cWrbytJ=0;i2cWrbytJ<8;i2cWrbytJ++)
+ 126   1               {
+ 127   2                 if((i2cWrbytWrData&0x80)>0)
+ 128   2                    {iicwrbit_1_si();}
+ 129   2                 else
+ 130   2                    {iicwrbit_0_si();}
+ 131   2                 i2cWrbytWrData=_crol_(i2cWrbytWrData,1);
+ 132   2                 }  
+ 133   1            }
+ 134          
+ 135           uchar iicrdByte_si()
+ 136               {
+ 137   1             uchar i2cRdbytRdData=0xff,i2cRdbytJ;
+ 138   1             pSCL_si=0;
+ 139   1             for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}
+ 140   1             pSDA_si=1;
+ 141   1             for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}
+ 142   1             for(i2cRdbytJ=0;i2cRdbytJ<8;i2cRdbytJ++)
+ 143   1               {
+ 144   2                pSCL_si=1;
+ 145   2                for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();}   
+ 146   2                if(pSDA_si==0)
+ 147   2                  {
+ 148   3                   i2cRdbytRdData=i2cRdbytRdData&0x7f;
+ 149   3                   i2cRdbytRdData=_crol_(i2cRdbytRdData,1);
+ 150   3                    } 
+ 151   2                else
+ 152   2                  {
+ 153   3                   i2cRdbytRdData=i2cRdbytRdData|0x80;
+ 154   3                   i2cRdbytRdData=_crol_(i2cRdbytRdData,1);
+ 155   3                   }
+ 156   2                for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();} 
+ 157   2                pSCL_si=0; 
+ 158   2                for(xdelay_si=0;xdelay_si<50;xdelay_si++){_nop_();} 
+ 159   2                }
+ 160   1             return(i2cRdbytRdData);
+ 161   1             }
+ 162          
+ 163          //----------------------------------------------------------------
+ 164            
+ 165          
+ 166          void set_i2c_slave_si(uchar xdevaddr,uchar xbyte_addr,uchar xbyte_data)
+ 167            {
+ 168   1          do{
+ 169   2              do{
+ 170   3                do{
+ 171   4                    iicStart(); 
+*** WARNING C206 IN LINE 171 OF moni_I2C_A_si.c: 'iicStart': missing function-prototype
+ 172   4                    iicwrByte_si(xdevaddr); //0xc0
+ 173   4                    iic_getAck_si();
+ 174   4                }while(bACK_si==1);
+ 175   3                iicwrByte_si(xbyte_addr);
+ 176   3                iic_getAck_si();
+C51 COMPILER V9.52.0.0   MONI_I2C_A_SI                                                     01/18/2016 18:42:05 PAGE 4   
+
+ 177   3              }while(bACK_si==1);
+ 178   2              iicwrByte_si(xbyte_data);
+ 179   2              iic_getAck_si();
+ 180   2            }while(bACK_si==1);
+ 181   1         iicStop_si();
+ 182   1        }
+ 183          
+ 184          uchar read_i2c_slave_si(uchar xdevaddr,uchar RdAddr)
+ 185               {
+ 186   1          uchar temp;
+ 187   1          uchar x_wr_devaddr;
+ 188   1          x_wr_devaddr = xdevaddr + 1;   
+ 189   1          do{
+ 190   2             do{
+ 191   3                do{
+ 192   4                   iicStart();
+ 193   4                   iicwrByte_si(xdevaddr);//0xc0  这里0xa0 要改成 24C04 的addr + 1(for read)
+ 194   4                   iic_getAck_si();
+ 195   4                   //PTSTA = tst;//tst GPIO
+ 196   4                   //tst = ~tst;   
+ 197   4                   }while(bACK_si==1);
+ 198   3                iicwrByte_si(RdAddr);
+ 199   3                iic_getAck_si();
+ 200   3                //PTSTA = tst;//tst GPIO
+ 201   3                //tst = ~tst;  
+ 202   3                }while(bACK_si==1);
+ 203   2              iicStop_si();   
+ 204   2              iicStart();
+ 205   2              iicwrByte_si(x_wr_devaddr);//0xc1
+ 206   2              iic_getAck_si();
+ 207   2              //PTSTA = tst;//tst GPIO
+ 208   2              //tst = ~tst;  
+ 209   2              }while(bACK_si==1);
+ 210   1           temp=iicrdByte_si();
+ 211   1           iic_send_MACK_si();
+ 212   1           iicStop_si();
+ 213   1           //PTSTA = tst;//tst GPIO
+ 214   1           //tst = ~tst;   
+ 215   1           return(temp);
+ 216   1          }
+ 217          
+ 218          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    543    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

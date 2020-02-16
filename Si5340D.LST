@@ -1,0 +1,362 @@
+C51 COMPILER V9.00   SI5340D                                                               09/11/2017 15:30:04 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE SI5340D
+OBJECT MODULE PLACED IN Si5340D.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Si5340D.c BROWSE INCDIR(..\Master_c_testIO_moni_uart_web;..\Master_c_testIO
+                    -_moni_uart_web) DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          //#include  "Si5340-disable.h"
+   2          //#include  "Si5340_196_cmos.h"
+   3          //#include  "Si5340_180_cmos.h"
+   4          //#include  "Si5340_98_cmos.h"
+   5          //#include  "Si5340_90_cmos.h"
+   6          
+   7          //#include  "Si5340_49_cmos.h"
+   8          //#include  "Si5340_45_cmos.h"
+   9          //#include  "Si5340_24_cmos.h"
+  10          //#include  "Si5340_22_cmos.h"
+  11          
+  12          #include  "new/Si5340d_new_22p5792.h"
+  13          //#include  "new/Si5340d_new_45p1584.h"
+  14          
+  15          extern void UART_SEND(unsigned char dat);
+  16          extern void si_spi_write(unsigned char xreg_addr,unsigned char xreg_data);
+  17          extern unsigned char si_spi_read(unsigned char xreg_addr);
+  18          
+  19          
+  20          
+  21          void config_num_si5340d(unsigned int xleng,si5340_revb_register_t *xp)
+  22          {
+  23   1              unsigned int i;
+  24   1              unsigned int xaddr;
+  25   1              unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+  26   1              
+  27   1              xchar_old = 0xff;
+  28   1              
+  29   1              for(i=0;i<xleng;i++)
+  30   1                      {
+  31   2                  xaddr = (*xp)[i].address;
+  32   2                              xchar = xaddr >> 8;
+  33   2                              if(xchar_old != xchar)
+  34   2                              {
+  35   3                                       xchar_old = xchar;
+  36   3                                       si_spi_write(0x01,xchar);//set page number
+  37   3                              //      UART_SEND(xchar);
+  38   3                              //   xtest = si_spi_read(0x01);
+  39   3                              //   UART_SEND(xtest);
+  40   3                              }
+  41   2                              xchar = xaddr;
+  42   2                      //      UART_SEND(xchar);
+  43   2                              xcharB = (*xp)[i].value;
+  44   2                              si_spi_write(xchar,xcharB);
+  45   2                      //      UART_SEND(xcharB);
+  46   2                      //      xtest = si_spi_read(xchar);
+  47   2                      //      UART_SEND(xtest);
+  48   2                      }
+  49   1              
+  50   1      }
+*** WARNING C280 IN LINE 25 OF SI5340D.C: 'xreg_addr': unreferenced local variable
+*** WARNING C280 IN LINE 25 OF SI5340D.C: 'xtest': unreferenced local variable
+  51          
+  52          
+C51 COMPILER V9.00   SI5340D                                                               09/11/2017 15:30:04 PAGE 2   
+
+  53          
+  54          
+  55          //--------------------------------------------------------------------------
+  56          //--------------------------------------------------------------------------
+  57          //--------------------------------------------------------------------------
+  58          void config_init_si5340d(void)
+  59          {
+  60   1       config_num_si5340d(SI5340_22p5792_NUM_REGS,&si5340_100p_registers);
+  61   1              
+  62   1      }
+  63          
+  64          //------------------------------------------------------------
+  65          
+  66           void config_100p(void)
+  67          {
+  68   1              config_num_si5340d(SI5340_22p5792_NUM_REGS,&si5340_100p_registers);
+  69   1      }
+  70           
+  71          
+  72          
+  73          
+  74          
+  75          
+  76          
+  77          
+  78          
+  79          
+  80          
+  81          
+  82          
+  83          
+  84          
+  85          
+  86          
+  87          
+  88          
+  89          
+  90          
+  91          /*
+  92          void config_init_si5342d(void)
+  93          {
+  94                  unsigned int i;
+  95                  unsigned int xaddr;
+  96                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+  97                  
+  98                  xchar_old = 0xff;
+  99                  
+ 100                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 101                          {
+ 102                      xaddr = si5342_revb_registers[i].address;
+ 103                                  xchar = xaddr >> 8;
+ 104                                  if(xchar_old != xchar)
+ 105                                  {
+ 106                                           xchar_old = xchar;
+ 107                                           si_spi_write(0x01,xchar);//set page number
+ 108                                           //UART_SEND(xchar);
+ 109                                     xtest = si_spi_read(0x01);
+ 110                                     //UART_SEND(xtest);
+ 111                                  }
+ 112                                  xchar = xaddr;
+ 113                                  //UART_SEND(xchar);
+ 114                                  xcharB = si5342_revb_registers[i].value;
+C51 COMPILER V9.00   SI5340D                                                               09/11/2017 15:30:04 PAGE 3   
+
+ 115                                  //UART_SEND(xcharB);
+ 116                                  si_spi_write(xchar,xcharB);
+ 117                                  xtest = si_spi_read(xchar);
+ 118                                  //UART_SEND(xtest);
+ 119                          }
+ 120                  
+ 121          }
+ 122          
+ 123          void config_44p1_si5342d(void)
+ 124          {
+ 125                  unsigned int i;
+ 126                  unsigned int xaddr;
+ 127                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+ 128                  
+ 129                  xchar_old = 0xff;
+ 130                  
+ 131                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 132                          {
+ 133                      xaddr = si5342_44p1_registers[i].address;
+ 134                                  xchar = xaddr >> 8;
+ 135                                  if(xchar_old != xchar)
+ 136                                  {
+ 137                                           xchar_old = xchar;
+ 138                                           si_spi_write(0x01,xchar);//set page number
+ 139                                           //UART_SEND(xchar);
+ 140                                     xtest = si_spi_read(0x01);
+ 141                                     //UART_SEND(xtest);
+ 142                                  }
+ 143                                  xchar = xaddr;
+ 144                                  //UART_SEND(xchar);
+ 145                                  xcharB = si5342_44p1_registers[i].value;
+ 146                                  //UART_SEND(xcharB);
+ 147                                  si_spi_write(xchar,xcharB);
+ 148                                  xtest = si_spi_read(xchar);
+ 149                                  //UART_SEND(xtest);
+ 150                          }
+ 151                  
+ 152          }
+ 153          
+ 154          
+ 155          
+ 156          
+ 157          void config_96k_si5342d(void)
+ 158          {
+ 159                  unsigned int i;
+ 160                  unsigned int xaddr;
+ 161                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+ 162                  
+ 163                  xchar_old = 0xff;
+ 164                  
+ 165                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 166                          {
+ 167                      xaddr = si5342_96k_registers[i].address;
+ 168                                  xchar = xaddr >> 8;
+ 169                                  if(xchar_old != xchar)
+ 170                                  {
+ 171                                           xchar_old = xchar;
+ 172                                           si_spi_write(0x01,xchar);//set page number
+ 173                                           xtest = si_spi_read(0x01);
+ 174                                  }
+ 175                                  xchar = xaddr;
+ 176                                  xcharB = si5342_96k_registers[i].value;
+C51 COMPILER V9.00   SI5340D                                                               09/11/2017 15:30:04 PAGE 4   
+
+ 177                                  si_spi_write(xchar,xcharB);
+ 178                                  xtest = si_spi_read(xchar);
+ 179                          }
+ 180                  
+ 181          }
+ 182          
+ 183          void config_88p2k_si5342d(void)
+ 184          {
+ 185                  unsigned int i;
+ 186                  unsigned int xaddr;
+ 187                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+ 188                  
+ 189                  xchar_old = 0xff;
+ 190                  
+ 191                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 192                          {
+ 193                      xaddr = si5342_88p2_registers[i].address;
+ 194                                  xchar = xaddr >> 8;
+ 195                                  if(xchar_old != xchar)
+ 196                                  {
+ 197                                           xchar_old = xchar;
+ 198                                           si_spi_write(0x01,xchar);//set page number
+ 199                                           xtest = si_spi_read(0x01);
+ 200                                  }
+ 201                                  xchar = xaddr;
+ 202                                  xcharB = si5342_88p2_registers[i].value;
+ 203                                  si_spi_write(xchar,xcharB);
+ 204                                  xtest = si_spi_read(xchar);
+ 205                          }
+ 206                  
+ 207          }
+ 208          
+ 209          
+ 210          
+ 211          
+ 212          
+ 213          
+ 214          void config_192k_si5342d(void)
+ 215          {
+ 216                  unsigned int i;
+ 217                  unsigned int xaddr;
+ 218                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+ 219                  
+ 220                  xchar_old = 0xff;
+ 221                  
+ 222                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 223                          {
+ 224                      xaddr = si5342_192k_registers[i].address;
+ 225                                  xchar = xaddr >> 8;
+ 226                                  if(xchar_old != xchar)
+ 227                                  {
+ 228                                           xchar_old = xchar;
+ 229                                           si_spi_write(0x01,xchar);//set page number
+ 230                                           xtest = si_spi_read(0x01);
+ 231                                  }
+ 232                                  xchar = xaddr;
+ 233                                  xcharB = si5342_192k_registers[i].value;
+ 234                                  si_spi_write(xchar,xcharB);
+ 235                                  xtest = si_spi_read(xchar);
+ 236                          }
+ 237                  
+ 238          }
+C51 COMPILER V9.00   SI5340D                                                               09/11/2017 15:30:04 PAGE 5   
+
+ 239          
+ 240          void config_176p4k_si5342d(void)
+ 241          {
+ 242                  unsigned int i;
+ 243                  unsigned int xaddr;
+ 244                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+ 245                  
+ 246                  xchar_old = 0xff;
+ 247                  
+ 248                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 249                          {
+ 250                      xaddr = si5342_176p4_registers[i].address;
+ 251                                  xchar = xaddr >> 8;
+ 252                                  if(xchar_old != xchar)
+ 253                                  {
+ 254                                           xchar_old = xchar;
+ 255                                           si_spi_write(0x01,xchar);//set page number
+ 256                                           xtest = si_spi_read(0x01);
+ 257                                  }
+ 258                                  xchar = xaddr;
+ 259                                  xcharB = si5342_176p4_registers[i].value;
+ 260                                  si_spi_write(xchar,xcharB);
+ 261                                  xtest = si_spi_read(xchar);
+ 262                          }
+ 263                  
+ 264          }
+ 265          
+ 266          
+ 267          */
+ 268          
+ 269          
+ 270          
+ 271          
+ 272          
+ 273          
+ 274          
+ 275          
+ 276          
+ 277          
+ 278          
+ 279          
+ 280          
+ 281          
+ 282          
+ 283          
+ 284          
+ 285          
+ 286          
+ 287          
+ 288          
+ 289          
+ 290          
+ 291          
+ 292          
+ 293          /*
+ 294          void configure_xK( si5342_revb_register_t * xp)
+ 295          {
+ 296                  unsigned int i;
+ 297                  unsigned int xaddr;
+ 298                  unsigned char xreg_addr,xchar,xchar_old,xcharB,xtest;
+ 299                  
+ 300                  xchar_old = 0xff;
+C51 COMPILER V9.00   SI5340D                                                               09/11/2017 15:30:04 PAGE 6   
+
+ 301                  
+ 302                  for(i=0;i<SI5342_REVB_REG_CONFIG_NUM_REGS;i++)
+ 303                          {
+ 304                      xaddr = xp[i].address;
+ 305                                  xchar = xaddr >> 8;
+ 306                                  if(xchar_old != xchar)
+ 307                                  {
+ 308                                           xchar_old = xchar;
+ 309                                           si_spi_write(0x01,xchar);//set page number
+ 310                                           UART_SEND(xchar);
+ 311                                     xtest = si_spi_read(0x01);
+ 312                                     UART_SEND(xtest);
+ 313                                  }
+ 314                                  xchar = xaddr;
+ 315                                  UART_SEND(xchar);
+ 316                                  xcharB = xp[i].value;
+ 317                                  UART_SEND(xcharB);
+ 318                                  si_spi_write(xchar,xcharB);
+ 319                                  xtest = si_spi_read(xchar);
+ 320                                  UART_SEND(xtest);
+ 321                          }       
+ 322          }
+ 323          */
+ 324          
+ 325          
+ 326          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    149    ----
+   CONSTANT SIZE    =    639    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      14
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,6 @@
+"main.obj",
+"delay.obj",
+"si_spi.obj",
+"Si5340D.obj" 
+TO "Master" 
+RAMSIZE(256) 

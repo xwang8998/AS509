@@ -1,0 +1,111 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\lin_work\work\ircore\last\Master_c\Master.uvproj
+Project File Date:  09/08/2015
+
+<h2>Output:</h2>
+Rebuild target 'Target 1'
+compiling i2c_slave.c...
+i2c_slave.c(136): warning C280: 'p': unreferenced local variable
+compiling main.c...
+main.c(34): warning C275: expression with possibly no effect
+main.c(48): warning C275: expression with possibly no effect
+main.c(51): warning C173: missing return-expression
+main.c(52): warning C173: missing return-expression
+main.c(88): warning C280: 'i': unreferenced local variable
+main.c(90): warning C280: 'xdx': unreferenced local variable
+main.c(52): warning C290: missing return value
+compiling delay.c...
+compiling moni_I2C_A.c...
+STC15Fxxxx.H(543): warning C322: unknown identifier
+STC15Fxxxx.H(545): warning C322: unknown identifier
+STC15Fxxxx.H(547): warning C322: unknown identifier
+STC15Fxxxx.H(549): warning C322: unknown identifier
+STC15Fxxxx.H(551): warning C322: unknown identifier
+STC15Fxxxx.H(553): warning C322: unknown identifier
+STC15Fxxxx.H(555): warning C322: unknown identifier
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?I2C_SLAVE_CONFIG?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_DEVICE_IMITATE?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_XX_I2C_DEVICE_IMITATE?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IIC_SEND_MNACK?MONI_I2C_A
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IICRDBYTE?MONI_I2C_A
+Program Size: data=21.3 xdata=0 code=835
+creating hex file from "Slave"...
+"Slave" - 0 Error(s), 20 Warning(s).
+Rebuild target 'Target 1'
+compiling i2c_slave.c...
+i2c_slave.c(136): warning C280: 'p': unreferenced local variable
+compiling main.c...
+main.c(34): warning C275: expression with possibly no effect
+main.c(48): warning C275: expression with possibly no effect
+main.c(51): warning C173: missing return-expression
+main.c(52): warning C173: missing return-expression
+main.c(88): warning C280: 'i': unreferenced local variable
+main.c(90): warning C280: 'xdx': unreferenced local variable
+main.c(52): warning C290: missing return value
+compiling delay.c...
+compiling moni_I2C_A.c...
+STC15Fxxxx.H(543): warning C322: unknown identifier
+STC15Fxxxx.H(545): warning C322: unknown identifier
+STC15Fxxxx.H(547): warning C322: unknown identifier
+STC15Fxxxx.H(549): warning C322: unknown identifier
+STC15Fxxxx.H(551): warning C322: unknown identifier
+STC15Fxxxx.H(553): warning C322: unknown identifier
+STC15Fxxxx.H(555): warning C322: unknown identifier
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?I2C_SLAVE_CONFIG?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_DEVICE_IMITATE?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_XX_I2C_DEVICE_IMITATE?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IIC_SEND_MNACK?MONI_I2C_A
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IICRDBYTE?MONI_I2C_A
+Program Size: data=21.3 xdata=0 code=835
+creating hex file from "Master"...
+"Master" - 0 Error(s), 20 Warning(s).
+Rebuild target 'Target 1'
+compiling i2c_slave.c...
+i2c_slave.c(136): warning C280: 'p': unreferenced local variable
+compiling main.c...
+main.c(34): warning C275: expression with possibly no effect
+main.c(48): warning C275: expression with possibly no effect
+main.c(51): warning C173: missing return-expression
+main.c(52): warning C173: missing return-expression
+main.c(88): warning C280: 'i': unreferenced local variable
+main.c(90): warning C280: 'xdx': unreferenced local variable
+main.c(52): warning C290: missing return value
+compiling delay.c...
+compiling moni_I2C_A.c...
+STC15Fxxxx.H(543): warning C322: unknown identifier
+STC15Fxxxx.H(545): warning C322: unknown identifier
+STC15Fxxxx.H(547): warning C322: unknown identifier
+STC15Fxxxx.H(549): warning C322: unknown identifier
+STC15Fxxxx.H(551): warning C322: unknown identifier
+STC15Fxxxx.H(553): warning C322: unknown identifier
+STC15Fxxxx.H(555): warning C322: unknown identifier
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?I2C_SLAVE_CONFIG?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_DEVICE_IMITATE?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_XX_I2C_DEVICE_IMITATE?I2C_SLAVE
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IIC_SEND_MNACK?MONI_I2C_A
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?IICRDBYTE?MONI_I2C_A
+Program Size: data=21.3 xdata=0 code=835
+creating hex file from "Master"...
+"Master" - 0 Error(s), 20 Warning(s).
